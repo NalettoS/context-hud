@@ -1,26 +1,37 @@
 # context-hud
 
-A small HUD that sits above the Claude Code prompt and tells you, at a glance, how full your context window is.
+A small weightless side project, built while playing with the new Claude Code mods: a HUD that sits right above the prompt.
 
 <p align="center"><img src="docs/demo.gif" alt="context-hud in its three stages: Healthy, Compact recommended, Compact now" width="540"></p>
 
-**Left: the model**
-- the model the session is running on
-- a recommended model for the session (a simple heuristic, see below)
+## The model
 
-**Right: the context**, read from the right edge inward
-- **Context status**: `Healthy`, `Compact recommended` or `Compact now`, plus tokens used out of the window (`108.2k / 200k`)
-- **Gauge**: a 270° arc like a phone battery ring, filled with a green → red gradient, the percentage in the middle and three dots below (green, yellow, red) for the current level
-- **History**: a sparkline of the context fill at the end of each of the last 12 turns, and how much the last turn added (`▲ +12.4k last turn`)
-- **Clawd**, Claude Code's mascot, on its original pixel grid, animated:
+On the left, the model you're using and a recommended one, based on a simple rule of thumb:
+
+- **Sonnet 5.5** for everyday work
+- **Opus 5.5** once the session gets heavy (more than 40 tool calls)
+- **The model you're already on** when the context is almost full (75%+): changing model that late means the new one has to reload the whole conversation, so it's better to stay where you are and compact
+
+Haiku and Fable are left out on purpose: Haiku is great for quick, lightweight tasks but it's not the one you'd pick to drive a whole coding session, and Fable is meant for ultra-heavy work and isn't available to everyone.
+
+## The context
+
+On the right, the context window, read from the right edge inward:
+
+- **Status**: `Healthy`, `Compact recommended` or `Compact now`, with the tokens used out of the window (`274.9k / 1000.0k`)
+- **Gauge**: borrowed (ok, copied) from the iPhone Duo battery UI: a 270° arc filled with a green → red gradient, the percentage in the middle and three dots below (green, yellow, red) for the current level
+- **History**: the context fill at the end of each of the last 12 turns, and how much the last turn added (`▲ +1.2k last turn`)
+- **Clawd**, Claude Code's mascot, on its original pixel grid, reacting to the context:
 
 | Context | Status | Clawd |
 | --- | --- | --- |
-| under 65% | Healthy | happy, hopping and blinking |
-| 65–79% | Compact recommended | sad, with a falling pixel tear |
-| 80% and over | Compact now | angry, shaking, steaming |
+| under 65% | Healthy | happy, hopping around and blinking |
+| 65–79% | Compact recommended | sad, crying a pixel tear |
+| 80% and over | Compact now | angry, shaking and steaming |
 
 In the **desktop app** the gauge and Clawd are drawn as vector graphics (SVG with SMIL animation). In the **terminal** the same layout is drawn with text: a box gauge, coloured dots and the block-character Clawd.
+
+Mods are a really fun new addition to Claude Code. I'd love to be able to reach even deeper into its UI: the text box, and everything else.
 
 ## Requirements
 
@@ -72,7 +83,7 @@ git update-index --skip-worktree hooks/glyphs.ts
 
 - **Tokens and percentage** come from Claude Code itself (`$.session.usage()`), the same figures as the status line: input tokens of the last response against the model's context window. They appear after the first response of a session or after a compaction.
 - **History** records the fill at the end of every turn; `·` marks turns not taken yet.
-- **Recommended model** is a heuristic, not an official signal: keep the current model once context is past 75% (compact first), Opus 5.5 after more than 40 tool calls in the session, Sonnet 5.5 otherwise.
+- **Recommended model** is the rule of thumb above, not an official signal.
 
 ## Develop
 
