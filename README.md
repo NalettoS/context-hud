@@ -42,7 +42,7 @@ Claude Code **2.1.286 or newer**. The mod is a plugin of *function hooks*, an ea
 Clone the repository somewhere permanent:
 
 ```bash
-git clone https://github.com/<you>/context-hud.git ~/claude-mods/context-hud
+git clone https://github.com/NalettoS/context-hud.git ~/claude-mods/context-hud
 ```
 
 **For one terminal session:**
@@ -56,7 +56,7 @@ claude --plugin-dir ~/claude-mods/context-hud
 ```json
 {
   "env": {
-    "CLAUDE_CODE_PLUGIN_DIRS": "/Users/<you>/claude-mods/context-hud",
+    "CLAUDE_CODE_PLUGIN_DIRS": "/Users/<your-user>/claude-mods/context-hud",
     "CLAUDE_CODE_ENABLE_FUNCTION_HOOKS": "1"
   }
 }
