@@ -29,8 +29,20 @@ const spark = (values: number[], window: number) => {
   return cells.join('').padStart(12, '·')
 }
 
+// A model id as people say it: claude-opus-5-5 → Opus 5.5, claude-sonnet-4-5-20250929 → Sonnet 4.5,
+// claude-3-5-haiku-20241022 → Haiku 3.5, a [1m] suffix → (1M). Anything else is shown as given.
+const nickname = (id: string) => {
+  const long = /\[1m\]/i.test(id) ? ' (1M)' : ''
+  const base = id.replace(/\[1m\]/i, '').trim()
+  const parts = base.replace(/^claude-/i, '').split('-').filter(x => !/^\d{8}$/.test(x) && x !== 'latest')
+  const family = parts.find(x => /^[a-z]+$/i.test(x))
+  const version = parts.filter(x => /^\d+$/.test(x)).join('.')
+  if (!family || !/^claude-/i.test(base)) return id
+  return `${family[0]?.toUpperCase()}${family.slice(1)}${version ? ` ${version}` : ''}${long}`
+}
+
 const recommend = (model: string, percent: number, tools: number) => {
-  if (percent >= 75) return model
+  if (percent >= 75) return nickname(model)
   return tools > 40 ? 'Opus 5.5' : 'Sonnet 5.5'
 }
 
@@ -202,7 +214,7 @@ export const register: Register = on => {
     const modelCol = (
       <Box flexDirection="column" width={26}>
         <Text dimColor>Model</Text>
-        <Text bold>{st.model}</Text>
+        <Text bold>{nickname(st.model)}</Text>
         <Text dimColor>Recommended: {recommend(st.model, p, st.tools)}</Text>
       </Box>
     )
