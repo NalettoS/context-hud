@@ -2,7 +2,7 @@
 
 A small HUD that sits above the Claude Code prompt and tells you, at a glance, how full your context window is.
 
-<!-- Add a screenshot of the HUD here, e.g. ![context-hud](docs/screenshot.png) -->
+<p align="center"><img src="docs/demo.gif" alt="context-hud in its three stages: Healthy, Compact recommended, Compact now" width="540"></p>
 
 **Left: the model**
 - the model the session is running on
