@@ -1,0 +1,6 @@
+.DS_Store
+node_modules/
+# written by Claude Code when it loads the mod
+.claude-plugin/types/
+.claude/types/
+tsconfig.json

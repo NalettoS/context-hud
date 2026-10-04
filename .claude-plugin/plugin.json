@@ -1,0 +1,8 @@
+{
+  "name": "context-hud",
+  "version": "1.0.0",
+  "description": "A HUD above the Claude Code prompt: current and recommended model on the left, a context-window gauge with Clawd's mood on the right",
+  "author": { "name": "NalettoS" },
+  "license": "MIT",
+  "types": "./types/index.d.ts"
+}
